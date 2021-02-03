@@ -24,6 +24,25 @@ public class GameBoard {
         this.grid[coordinate.getX()][coordinate.getY()] = symbol;
     }
 
+    public char whichTurn() {
+        int x = 0;
+        int o = 0;
+        for (int i = 0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                if (grid[i][j] == 'X') {
+                    x++;
+                } else if (grid[i][j] == 'O') {
+                    o++;
+                }
+            }
+        }
+        if (x > o) {
+            return 'O';
+        } else {
+            return 'X';
+        }
+    }
+
     public char[][] getGrid() {
         return grid;
     }

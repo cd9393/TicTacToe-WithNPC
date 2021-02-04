@@ -1,6 +1,6 @@
 "# TicTacToe-WithNPC" 
 
-STAGE 1 --
+<h1>STAGE 1 -- </h1>
 The program should work in the following way:
 
 Ask the user to provide the initial state of the 3x3 table with the first input line. This must include nine symbols that can be X, O or _ (the latter represents an empty cell).

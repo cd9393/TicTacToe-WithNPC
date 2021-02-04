@@ -12,6 +12,8 @@ public class Main {
             initializeGame(scanner,gameBoard);
             char playersTurn = gameBoard.whichTurn();
             takeTurn(scanner,playersTurn,gameBoard);
+            gameBoard.printGameBoard();
+            gameBoard.gameStatus();
 
         } catch(Exception exception) {
 
@@ -24,7 +26,7 @@ public class Main {
 
         while (!isCoordinateOkay) {
             coordinate = scanner.nextLine();
-            isCoordinateOkay = checkCoordinate(coordinate);
+            isCoordinateOkay = checkCoordinate(coordinate, gameBoard);
         }
         gameBoard.populateGameBoard(createCoordinate(coordinate),symbol);
         gameBoard.printGameBoard();
@@ -36,7 +38,7 @@ public class Main {
         return position;
     }
 
-    public static boolean checkCoordinate(String coordinate) {
+    public static boolean checkCoordinate(String coordinate, GameBoard grid) {
         String[] coordinates = coordinate.split(" ");
 
         if (coordinates.length > 2 || coordinates.length < 0) {
@@ -44,13 +46,19 @@ public class Main {
             return false;
         }
 
-        if (!coordinates[0].matches("^[1-3]+$") || !coordinates[1].matches("^[1-3]+$")) {
-            System.out.println("Error! Coordinates can only be numbers between 1 and 3");
+        if (!coordinates[0].matches("^[0-9]+$") || !coordinates[1].matches("^[0-9]+$")) {
+            System.out.println("You should enter numbers!");
             return false;
         }
 
         if (Integer.parseInt(coordinates[0]) > 3 || Integer.parseInt(coordinates[0]) < 1 || Integer.parseInt(coordinates[1]) > 3 || Integer.parseInt(coordinates[1]) < 1) {
-            System.out.println("Error! Coordinates X and Y must be between 1 and 3");
+            System.out.println("Coordinates should be from 1 to 3!");
+            return false;
+        }
+
+        Coordinate position = createCoordinate(coordinate);
+        if (grid.isCellTaken(position)) {
+            System.out.println("This cell is occupied! Choose another one!");
             return false;
         }
 

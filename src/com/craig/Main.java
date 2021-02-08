@@ -1,18 +1,28 @@
 package com.craig;
 
+import com.craig.NPCControllers.EasyNPC;
+
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
         // write your code here
         GameBoard gameBoard = new GameBoard();
-        System.out.println("Enter the cells for the state of the game:");
+        EasyNPC npc = new EasyNPC(gameBoard);
+        gameBoard.printGameBoard();
 
         try(Scanner scanner = new Scanner(System.in)) {
-            initializeGame(scanner,gameBoard);
-            char playersTurn = gameBoard.whichTurn();
-            takeTurn(scanner,playersTurn,gameBoard);
-            gameBoard.printGameBoard();
+
+            while (!gameBoard.isGameOver()) {
+                // initializeGame(scanner,gameBoard);
+                char playersTurn = gameBoard.whichTurn();
+                if (playersTurn == 'X') {
+                    takeTurn(scanner,playersTurn,gameBoard);
+                } else {
+                    npc.makeMove();
+                }
+                //gameBoard.printGameBoard();
+            }
             gameBoard.gameStatus();
 
         } catch(Exception exception) {
@@ -25,6 +35,7 @@ public class Main {
         String coordinate = null;
 
         while (!isCoordinateOkay) {
+            System.out.println("Enter the coordinates: ");
             coordinate = scanner.nextLine();
             isCoordinateOkay = checkCoordinate(coordinate, gameBoard);
         }

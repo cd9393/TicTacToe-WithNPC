@@ -1,10 +1,16 @@
 package com.craig;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 public class GameBoard {
     private char[][] grid;
     private final int gridSize = 3;
     public GameBoard() {
         this.grid = new char[gridSize][gridSize];
+        for (char[] chars : this.grid) {
+            Arrays.fill(chars, '_');
+        }
     }
 
     public void printGameBoard() {
@@ -12,7 +18,11 @@ public class GameBoard {
         for (int i = 0; i < gridSize; i++) {
             System.out.print("| ");
             for (int j = 0; j < gridSize; j++) {
-                System.out.print(grid[i][j] + " ");
+                if (grid[i][j] == '_') {
+                    System.out.print("  ");
+                }else {
+                    System.out.print(grid[i][j] + " ");
+                }
             }
             System.out.print("|");
             System.out.println();
@@ -22,6 +32,27 @@ public class GameBoard {
 
     public void populateGameBoard(Coordinate coordinate, char symbol) {
         this.grid[coordinate.getX()][coordinate.getY()] = symbol;
+    }
+
+    public ArrayList<Coordinate> getAvailableCells() {
+        ArrayList<Coordinate> availableCells = new ArrayList<Coordinate>();
+        for (int i =0; i < gridSize; i++) {
+            for (int j = 0; j < gridSize; j++) {
+                if (grid[i][j] == '_') {
+                    Coordinate coordinate = new Coordinate(i,j);
+                    availableCells.add(coordinate);
+                }
+            }
+        }
+        return availableCells;
+    }
+
+    public boolean isGameOver() {
+        if (!hasWin('X') && !hasWin('O') && hasSpaceFree()) {
+            return false;
+        } else {
+            return true;
+        }
     }
 
     public void gameStatus() {
